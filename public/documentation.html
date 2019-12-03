@@ -11,5 +11,88 @@
        genres, directors, image URLs. It can allow new users to register, update
        thier info, add movies to their favorites, remove movies from their favorites,
        and allow them to deregister.</p>
+    <h2>Get All Movies</h2>
+    <p>Return a list of all movies to the user.</p>
+    <ul>
+      <li>Endpoint: /movies</li>
+      <li>Method Type: GET</li>
+      <li>Query Parameters: none</li>
+      <li>Request body content: none</li>
+      <li>Response format: JSON</li>
+    </ul>
+    <h2>Get One Movie</h2>
+    <p>Return data (description, genre, director, image URL, whether it’s featured or not) about a single movie by title to the user.</p>
+    <ul>
+      <li>Endpoint: /movies/paramater</li>
+      <li>Method Type: GET</li>
+      <li>Query Parameters: Name of the movie.</li>
+      <li>Request body content: none</li>
+      <li>Response format: JSON</li>
+    </ul>
+    <h2>Get a Genre</h2>
+    <p>Return data about a genre (description) by name/title (e.g., “Thriller”).</p>
+    <ul>
+      <li>Endpoint: /genres/parameter</li>
+      <li>Method Type: GET</li>
+      <li>Query Parameters: Name of the genre.</li>
+      <li>Request body content: none</li>
+      <li>Response format: JSON</li>
+    </ul>
+    <h2>Get a Director</h2>
+    <p>Return data about a director (bio, birth year, death year) by name.</p>
+    <ul>
+      <li>Endpoint: /directors/parameter</li>
+      <li>Method Type: GET</li>
+      <li>Query Parameters: Name of the director.</li>
+      <li>Request body content: none</li>
+      <li>Response format: JSON</li>
+    </ul>
+    <h2>Create a New User</h2>
+    <p>Allow new users to register with a name, username, password, email, and date of birth.</p>
+    <ul>
+      <li>Endpoint: /users/new</li>
+      <li>Method Type: POST</li>
+      <li>Query Parameters: none</li>
+      <li>Request body content: JSON</li>
+      <p>Example: { "name" : "John Snow", "username" : "john123", "password" : "snow123", "email" : "john@gmail.com", "date of birth" : "01/01/1950" }<p>
+      <li>Response format: Message indicating user was created.</li>
+    </ul>
+    <h2>Update a User</h2>
+    <p>Allow users to update their user info (username, password, email, date of birth).</p>
+    <ul>
+      <li>Endpoint: /user/update</li>
+      <li>Method Type: PUT</li>
+      <li>Query Parameters: none</li>
+      <li>Request body content: JSON</li>
+      <p>Example: { "name" : "John Snow", "username" : "john123", "password" : "snow123", "email" : "john@gmail.com", "date of birth" : "01/01/1950" }<p>
+      <li>Response format: Message indicating user was updated.</li>
+    </ul>
+    <h2>Add Movie to Favorites</h2>
+    <p>Allow users to add a movie to their list of favorites.</p>
+    <ul>
+      <li>Endpoint: /movies/new/parameter</li>
+      <li>Method Type: POST</li>
+      <li>Query Parameters: Name of the movie.</li>
+      <li>Request body content: none</li>
+      <li>Response format: Message indicating the movie was added to favorites.</li>
+    </ul>
+    <h2>Delete Movie from Favorites</h2>
+    <p>Allow users to remove a movie from their list of favorites.</p>
+    <ul>
+      <li>Endpoint: /movies/delete/parameter</li>
+      <li>Method Type: DELETE</li>
+      <li>Query Parameters: Name of the movie.</li>
+      <li>Request body content: none</li>
+      <li>Response format: Message indicating the movie was removed from favorites.</li>
+    </ul>
+    <h2>Delete a User</h2>
+    <p>Allow existing users to deregister.</p>
+    <ul>
+      <li>Endpoint: /users/delete/parameter</li>
+      <li>Method Type: DELETE</li>
+      <li>Query Parameters: Name of the user.</li>
+      <li>Request body content: none</li>
+      <li>Response format: Message indicating that the user has been deregistered.</li>
+    </ul>
   </body>
 </html>
