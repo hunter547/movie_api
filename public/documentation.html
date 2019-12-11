@@ -18,34 +18,55 @@
       <li>Method Type: GET</li>
       <li>Query Parameters: none</li>
       <li>Request body content: none</li>
-      <li>Response format: JSON</li>
+      <li>Response format: JSON objects of all movies, each of which contain the movie's title, description, director, genre, image url, and featured status.</li>
     </ul>
     <h2>Get One Movie</h2>
     <p>Return data (description, genre, director, image URL, whether it’s featured or not) about a single movie by title to the user.</p>
     <ul>
-      <li>Endpoint: /movies/paramater</li>
+      <li>Endpoint: /movies/:Name</li>
       <li>Method Type: GET</li>
       <li>Query Parameters: Name of the movie.</li>
       <li>Request body content: none</li>
-      <li>Response format: JSON</li>
+      <li>Response format: JSON object containing the movie's title, description, director, genre, image url, and featured status.</li>
+      <li>Response example: { <br>
+                                "title": "Ex Machina", <br>
+                                "description": "A young programmer is selected to participate in a ground-breaking experiment in synthetic intelligence by evaluating the human qualities of a highly advanced humanoid A.I.", <br>
+                                "director": { <br>
+                                    "name": "Alex Garland" <br>
+                                }, <br>
+                                "genre": { <br>
+                                    "name": "Drama" <br>
+                                }, <br>
+                                "imageurl": "https://m.media-amazon.com/images/M/MV5BMTUxNzc0OTIxMV5BMl5BanBnXkFtZTgwNDI3NzU2NDE@._V1_SY1000_CR0,0,674,1000_AL_.jpg", <br>
+                                "featured": false <br>
+                            }</li>
     </ul>
     <h2>Get a Genre</h2>
     <p>Return data about a genre (description) by name/title (e.g., “Thriller”).</p>
     <ul>
-      <li>Endpoint: /genres/parameter</li>
+      <li>Endpoint: /genres/:Name</li>
       <li>Method Type: GET</li>
       <li>Query Parameters: Name of the genre.</li>
       <li>Request body content: none</li>
-      <li>Response format: JSON</li>
+      <li>Response format: JSON Object of the genre's name and description</li>
+      <li>Response example: {<br>
+                              "name": "Thriller",<br>
+                              "description": "Thriller film, also known as suspense film or suspense thriller, is a broad film genre that involves excitement and suspense in the audience."<br>
+                            }</li>
     </ul>
     <h2>Get a Director</h2>
     <p>Return data about a director (bio, birth year, death year) by name.</p>
     <ul>
-      <li>Endpoint: /directors/parameter</li>
+      <li>Endpoint: /directors/:Name</li>
       <li>Method Type: GET</li>
       <li>Query Parameters: Name of the director.</li>
       <li>Request body content: none</li>
-      <li>Response format: JSON</li>
+      <li>Response format: JSON Object of the director's name, bio, and birth date.</li>
+      <li>Response example: {<br>
+                              "name": "Quentin Tarantino",<br>
+                              "bio": "Quentin Jerome Tarantino was born in Knoxville, Tennessee. His father, Tony Tarantino, is an Italian-American actor and musician from New York, and his mother, Connie (McHugh), is a nurse from Tennessee.",<br>
+                              "birthdate": "1963-03-27T00:00:00.000Z"<br>
+                            }
     </ul>
     <h2>Create a New User</h2>
     <p>Allow new users to register with a name, username, password, email, and date of birth.</p>
@@ -54,43 +75,85 @@
       <li>Method Type: POST</li>
       <li>Query Parameters: none</li>
       <li>Request body content: JSON</li>
-      <p>Example: { "name" : "John Snow", "username" : "john123", "password" : "snow123", "email" : "john@gmail.com", "date of birth" : "01/01/1950" }<p>
-      <li>Response format: Message indicating user was created.</li>
+      <li>Request example: { "name" : "Evan Rogers", "username" : "evan123", "password" : "rogers123", "email" : "evan@gmail.com", "birth_date" : "02-06-1991", "favorite_movies" : "5de85a49334613d628eb855e" }</li>
+      <li>Response format: JSON Object with the new user's info containing their ID, name, username, password, email, date of birth, and favorite movies.</li>
+      <li>Respone example: {<br>
+                            "_id": "5df02c6ac11858b16b7ba0dc",<br>
+                            "name": "Evan Rogers",<br>
+                            "username": "evan123",<br>
+                            "password": "rogers123",<br>
+                            "email": "evan@gmail.com",<br>
+                            "birth_date": "1991-02-06T00:00:00.000Z",<br>
+                            "favorite_movies": [<br>
+                                {<br>
+                                    "title": "Fight Club"<br>
+                                }<br>
+                            ]<br>
+                        }</li>
     </ul>
     <h2>Update a User</h2>
     <p>Allow users to update their user info (username, password, email, date of birth).</p>
     <ul>
-      <li>Endpoint: /user/update</li>
+      <li>Endpoint: /user/:Username</li>
       <li>Method Type: PUT</li>
-      <li>Query Parameters: none</li>
+      <li>Query Parameters: Username of the user.</li>
       <li>Request body content: JSON</li>
-      <p>Example: { "name" : "John Snow", "username" : "john123", "password" : "snow123", "email" : "john@gmail.com", "date of birth" : "01/01/1950" }<p>
-      <li>Response format: Message indicating user was updated.</li>
+      <li>Request example: { "name" : "Evan Rogers", "username" : "evan123", "password" : "rogers123", "email" : "evanrogers@gmail.com", "birth_date" : "02-06-1991"}</li>
+      <li>Response format: JSON Object with the updated info contain the user's ID, name, username, password, email, date of birth, and favorite movies.</li>
+      <li>Respone example: {<br>
+                            "_id": "5df02c6ac11858b16b7ba0dc",<br>
+                            "name": "Evan Rogers",<br>
+                            "username": "evan123",<br>
+                            "password": "rogers123",<br>
+                            "email": "evanrogers@gmail.com",<br>
+                            "birth_date": "1991-02-06T00:00:00.000Z",<br>
+                            "favorite_movies": [<br>
+                                {<br>
+                                    "title": "Fight Club"<br>
+                                }<br>
+                            ]<br>
+                        }</li>
     </ul>
     <h2>Add Movie to Favorites</h2>
     <p>Allow users to add a movie to their list of favorites.</p>
     <ul>
-      <li>Endpoint: /movies/new/parameter</li>
+      <li>Endpoint: /users/:Username/Movies/:MovieID</li>
       <li>Method Type: POST</li>
-      <li>Query Parameters: Name of the movie.</li>
+      <li>Query Parameters: Username of the user and movie ID of the movie.</li>
       <li>Request body content: none</li>
-      <li>Response format: Message indicating the movie was added to favorites.</li>
+      <li>Response format: JSON Object contain the user's ID, name, username, password, email, date of birth, and new favorite movies.</li>
+      <li>Response example: {<br>
+                                "_id": "5df0293d3883cab12e9c56e2",<br>
+                                "name": "Evan Rogers",<br>
+                                "username": "evan123",<br>
+                                "password": "rogers123",<br>
+                                "email": "evanrogers@gmail.com",<br>
+                                "birth_date": "1991-02-06T00:00:00.000Z",<br>
+                                "favorite_movies": [<br>
+                                    {<br>
+                                        "title": "Fight Club"<br>
+                                    },<br>
+                                    {<br>
+                                        "title": "Inception"<br>
+                                    }<br>
+                                ]<br>
+                            }</li>
     </ul>
     <h2>Delete Movie from Favorites</h2>
     <p>Allow users to remove a movie from their list of favorites.</p>
     <ul>
-      <li>Endpoint: /movies/delete/parameter</li>
+      <li>Endpoint: /users/:Username/Movies/:MovieID</li>
       <li>Method Type: DELETE</li>
-      <li>Query Parameters: Name of the movie.</li>
+      <li>Query Parameters: Username of the user and movie ID of the movie.</li>
       <li>Request body content: none</li>
       <li>Response format: Message indicating the movie was removed from favorites.</li>
     </ul>
     <h2>Delete a User</h2>
     <p>Allow existing users to deregister.</p>
     <ul>
-      <li>Endpoint: /users/delete/parameter</li>
+      <li>Endpoint: /users/:Username</li>
       <li>Method Type: DELETE</li>
-      <li>Query Parameters: Name of the user.</li>
+      <li>Query Parameters: Username of the user.</li>
       <li>Request body content: none</li>
       <li>Response format: Message indicating that the user has been deregistered.</li>
     </ul>
