@@ -5,6 +5,8 @@ const express = require('express'),
   mongoose = require('mongoose'),
   Models = require('./models.js'),
   passport = require('passport'),
+  cors = require('cors'),
+  { check, validationResult } = require('express-validator'),
   app = express();
 
 require('./passport.js');
@@ -20,7 +22,20 @@ mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true }
 
 app.use(morgan('common'));
 app.use(bodyParser.json());
+app.use(cors());
 auth = require('./auth.js')(app);
+
+var allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
+app.use(cors({
+  origin: function(origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) { // If a specific origin isn’t found on the list of allowed origins
+      var message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
+      return callback(new Error(message), false);
+    }
+    return callback(null, true);
+  }
+}));
 
 // GET requests
 app.get('/', function(req, res) {
@@ -29,7 +44,7 @@ app.get('/', function(req, res) {
 app.get('/documentation', function(req, res) {
   app.use(express.static('public'));
 });
-app.get('/movies', passport.authenticate('jwt', { session: false }), function(req, res)  {
+app.get('/movies', passport.authenticate('jwt', { session: false }), function(req, res) {
   Movies.find({}, '-_id')
     .populate('director', '-_id name')
     .populate('genre', '-_id name')
@@ -81,7 +96,19 @@ app.get('/directors/:name', passport.authenticate('jwt', { session: false }), fu
 });
 
 // POST requests
-app.post('/users/', function(req, res) {
+app.post('/users/', [check('username', 'Username is required').isLength({ min: 5 }),
+check('username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+check('password', 'Password is required').not().isEmpty(),
+check('email', 'Email does not appear to be valid').isEmail()], function(req, res) {
+
+  // check the validation object for errors
+  var errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+  var hashedPassword = Users.hashPassword(req.body.Password);
+
   Users.findOne({ username: req.body.username })
     .then(function(user) {
       if (user) {
@@ -92,7 +119,7 @@ app.post('/users/', function(req, res) {
         Users.create({
           name: req.body.name,
           username: req.body.username,
-          password: req.body.password,
+          password: hashedPassword,
           email: req.body.email,
           birth_date: req.body.birth_date,
           favorite_movies: req.body.favorite_movies
@@ -192,7 +219,18 @@ app.post('/users/:Username/Movies/:MovieID', passport.authenticate('jwt', { sess
 });
 
 // PUT requests
-app.put('/users/:username', passport.authenticate('jwt', { session: false }), function(req, res) {
+app.put('/users/:username', passport.authenticate('jwt', { session: false }),
+[check('username', 'Username is required').isLength({ min: 5 }),
+check('username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+check('password', 'Password is required').not().isEmpty(),
+check('email', 'Email does not appear to be valid').isEmail()], function(req, res) {
+
+  // check the validation object for errors
+  var errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
   Users.findOneAndUpdate({ username: req.params.username }, {
     $set:
     {
@@ -266,6 +304,7 @@ app.use(function(err, req, res, next) {
 });
 
 // listen for requests
-app.listen(8080, () =>
-  console.log('Listening on port 8080.')
-);
+var port = process.env.PORT || 3000;
+app.listen(port, "0.0.0.0", function() {
+console.log("Listening on Port 3000");
+});
