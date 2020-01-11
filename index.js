@@ -19,7 +19,7 @@ const Genres = Models.Genre;
 
 
 // mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true });
-mongoose.connect('mongodb+srv://admin:admin@myflixdb-h9nol.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true });
+mongoose.connect('mongodb+srv://admin:admin@myflixdb-h9nol.mongodb.net/myFlixDB?retryWrites=true&w=majority', { useNewUrlParser: true });
 
 app.use(morgan('common'));
 app.use(bodyParser.json());
