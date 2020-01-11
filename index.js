@@ -107,7 +107,7 @@ check('email', 'Email does not appear to be valid').isEmail()], function(req, re
   if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.array() });
   }
-  var hashedPassword = Users.hashPassword(req.body.Password);
+  var hashedPassword = Users.hashPassword(req.body.password);
 
   Users.findOne({ username: req.body.username })
     .then(function(user) {
