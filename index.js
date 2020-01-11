@@ -7,10 +7,11 @@ const express = require('express'),
   passport = require('passport'),
   cors = require('cors'),
   { check, validationResult } = require('express-validator'),
+  credentials = require('./credentials.js'),
   app = express();
 
 require('./passport.js');
-require('./auth')
+require('./auth');
 
 const Movies = Models.Movie;
 const Users = Models.User;
@@ -18,7 +19,8 @@ const Directors = Models.Director;
 const Genres = Models.Genre;
 
 
-mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true });
+// mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true });
+mongoose.connect('mongodb+srv://'+credentials.username+':'+credentials.dbPass+'@myflixdb-h9nol.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true });
 
 app.use(morgan('common'));
 app.use(bodyParser.json());
