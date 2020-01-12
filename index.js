@@ -9,8 +9,7 @@ const express = require('express'),
   { check, validationResult } = require('express-validator'),
   app = express();
 
-require('./passport.js');
-require('./auth.js');
+require('./passport');
 
 const Movies = Models.Movie;
 const Users = Models.User;
