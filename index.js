@@ -158,11 +158,11 @@ app.post('/movies/new/', passport.authenticate('jwt', { session: false }), funct
       else {
         Movies.create({
           title: req.body.name,
-          username: req.body.username,
-          password: req.body.password,
-          email: req.body.email,
-          birth_date: req.body.birth_date,
-          favorite_movies: req.body.favorite_movies
+          description: req.body.description,
+          genre: req.body.genre,
+          director: req.body.director,
+          imageurl: req.body.imageurl,
+          featured: req.body.featured
         })
           .then(function(movie) {
             res.status(201).json(movie)
@@ -231,12 +231,15 @@ check('email', 'Email does not appear to be valid').isEmail()], function(req, re
   if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.array() });
   }
+
+  var hashedPassword = Users.hashPassword(req.body.password);
+
   Users.findOneAndUpdate({ username: req.params.username }, {
     $set:
     {
       name: req.body.name,
       username: req.body.username,
-      password: req.body.password,
+      password: hashedPassword,
       email: req.body.email,
       birth_date: req.body.birth_date
     }
