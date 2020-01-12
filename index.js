@@ -10,7 +10,7 @@ const express = require('express'),
   app = express();
 
 require('./passport.js');
-require('./auth')
+require('./auth.js');
 
 const Movies = Models.Movie;
 const Users = Models.User;
