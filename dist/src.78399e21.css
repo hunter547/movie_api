@@ -1,0 +1,18 @@
+.my-flix {
+  color: steelblue;
+}
+
+.back-button {
+  color: black;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.back-button:hover {
+  cursor: pointer;
+}
+
+/*# sourceMappingURL=/src.78399e21.css.map */
