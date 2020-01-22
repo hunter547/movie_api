@@ -1,4 +1,8 @@
 import React from 'react';
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
+import ListGroup from 'react-bootstrap/ListGroup';
+import './movie-view.scss';
 
 export class MovieView extends React.Component {
 
@@ -8,35 +12,35 @@ export class MovieView extends React.Component {
     this.state = {};
   }
 
+
   render() {
     const { movie, mainview } = this.props;
+    var featured = '';
+
 
     if (!movie) return null;
 
+    if (movie.featured) {
+      featured = 'Yes';
+    }
+    else {
+      featured = 'No';
+    }
+
     return (
-      <div className="movie-view">
-        <img className="movie-poster" src={movie.imageurl} />
-        <div className="movie-title">
-          <span className="label">Title: </span>
-          <span className="value">{movie.title}</span>
-        </div>
-        <div className="movie-description">
-          <span className="label">Description: </span>
-          <span className="value">{movie.description}</span>
-        </div>
-
-        <div className="movie-genre">
-          <span className="label">Genre: </span>
-          <span className="value">{movie.genre.name}</span>
-        </div>
-        <div className="movie-director">
-          <span className="label">Director: </span>
-          <span className="value">{movie.director.name}</span>
-        </div>
-        <button className = "back-button" onClick = {() => mainview(null)}>Back</button>
-       </div>
-
-
+      <Card className = "movie-card" style={{ width: '32rem' }}>
+        <Card.Img variant="top" src={movie.imageurl} />
+        <Card.Body>
+          <Card.Title className = "movie-title">{movie.title}</Card.Title>
+          <Card.Text className = "movie-description">{movie.description}</Card.Text>
+          <ListGroup variant ="flush">
+            <ListGroup.Item>Genre: {movie.genre.name}</ListGroup.Item>
+            <ListGroup.Item>Director: {movie.director.name}</ListGroup.Item>
+            <ListGroup.Item>Featured: {featured}</ListGroup.Item>
+          </ListGroup>
+          <Button className="back-button" onClick={() => mainview(null)}>Back</Button>
+        </Card.Body>
+      </Card>
     );
   }
 }

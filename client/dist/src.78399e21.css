@@ -1,3 +1,41 @@
+.myflix-movies {
+  margin: 2rem auto;
+  color: #05386B;
+}
+.login-form {
+  margin: 10rem auto;
+  width: 30%;
+  color: #379683;
+}
+
+.myflix-title {
+  margin: 10rem auto;
+  width: 30%;
+  color: #05386B;
+}
+
+.submit-button {
+  background-color: #379683;
+}
+.movie-title {
+  color: #379683;
+}
+
+.open-button {
+  background-color: #379683;
+}
+
+.btn-link {
+  color: white;
+}
+.back-button {
+  background-color: #379683;
+  margin-top: 1rem;
+}
+
+.movie-card {
+  margin: 0 auto;
+}
 .my-flix {
   color: steelblue;
 }
