@@ -20,3 +20,16 @@ $green: #379683;
 .submit-button {
   background-color: $green;
 }
+
+.login-group {
+  margin: 0 auto;
+  width: 30%;
+}
+
+.login-link {
+  text-decoration: underline;
+}
+
+.login-link:hover{
+  cursor: pointer;
+}

@@ -45,7 +45,7 @@ html {
   width: 30%;
 }
 
-.register-link {
+a:not([href]):not([tabindex]) {
   text-decoration: underline;
 }
 
@@ -70,6 +70,19 @@ html {
 
 .submit-button {
   background-color: #379683;
+}
+
+.login-group {
+  margin: 0 auto;
+  width: 30%;
+}
+
+.login-link {
+  text-decoration: underline;
+}
+
+.login-link:hover {
+  cursor: pointer;
 }
 .movie-title {
   color: #379683;

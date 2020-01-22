@@ -30,8 +30,7 @@ html {
   margin: 0 auto;
   width: 30%;
 }
-
-.register-link {
+a:not([href]):not([tabindex]){
   text-decoration: underline;
 }
 

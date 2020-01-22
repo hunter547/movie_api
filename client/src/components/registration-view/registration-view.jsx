@@ -16,6 +16,10 @@ export function RegistrationView(props) {
     props.onNeedRegistration(false);
   };
 
+  const handleLogin = () => {
+    props.onNeedRegistration(false);
+  }
+
 
   return (
     <div className="registration-view">
@@ -45,6 +49,10 @@ export function RegistrationView(props) {
           <Form.Control type="date" placeholder="Enter birthdate" value={birth_date} onChange={e => setBirthDate(e.target.value)} />
         </Form.Group>
         <Button className="submit-button" variant="primary" type="button" onClick={handleSubmit}>Submit</Button>
+        <Form.Group className="login-group" controlId="formLogin">
+          <Form.Text className="text-muted">Already have an account?</Form.Text>
+          <a className="login-link" onClick={handleLogin}>Login here</a>
+        </Form.Group>
       </Form>
     </div>
   );

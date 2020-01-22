@@ -38099,6 +38099,10 @@ function RegistrationView(props) {
     props.onNeedRegistration(false);
   };
 
+  var handleLogin = function handleLogin() {
+    props.onNeedRegistration(false);
+  };
+
   return _react.default.createElement("div", {
     className: "registration-view"
   }, _react.default.createElement("h1", {
@@ -38157,7 +38161,15 @@ function RegistrationView(props) {
     variant: "primary",
     type: "button",
     onClick: handleSubmit
-  }, "Submit")));
+  }, "Submit"), _react.default.createElement(_Form.default.Group, {
+    className: "login-group",
+    controlId: "formLogin"
+  }, _react.default.createElement(_Form.default.Text, {
+    className: "text-muted"
+  }, "Already have an account?"), _react.default.createElement("a", {
+    className: "login-link",
+    onClick: handleLogin
+  }, "Login here"))));
 }
 },{"react":"../node_modules/react/index.js","./registration-view.scss":"components/registration-view/registration-view.scss","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js"}],"../node_modules/react-bootstrap/esm/divWithClassName.js":[function(require,module,exports) {
 "use strict";
