@@ -1,8 +1,62 @@
+.main-view {
+  background-color: #FFFFF0;
+}
+
 .myflix-movies {
   margin: 2rem auto;
   color: #05386B;
 }
+
+.myflix-logout {
+  text-decoration: underline;
+  color: #379683;
+}
+
+.myflix-logout:hover {
+  cursor: pointer;
+  text-decoration: none;
+}
+html {
+  background-color: #FFFFF0;
+}
+
+.login-view {
+  background-color: #FFFFF0;
+}
+
 .login-form {
+  margin: 10rem auto;
+  width: 30%;
+  color: #379683;
+}
+
+.myflix-title {
+  margin: 10rem auto;
+  width: 30%;
+  color: #05386B;
+}
+
+.submit-button {
+  background-color: #379683;
+}
+
+.registration-group {
+  margin: 0 auto;
+  width: 30%;
+}
+
+.register-link {
+  text-decoration: underline;
+}
+
+.register-link:hover {
+  cursor: pointer;
+}
+.registration-view {
+  background-color: #FFFFF0;
+}
+
+.registration-form {
   margin: 10rem auto;
   width: 30%;
   color: #379683;

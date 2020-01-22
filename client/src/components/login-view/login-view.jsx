@@ -13,9 +13,13 @@ export function LoginView(props) {
     props.onLoggedIn(username);
   };
 
+  const handleRegistration = () => {
+    props.onNeedRegistration(true);
+  };
+
 
   return (
-    <div>
+    <div className ="login-view">
       <h1 className="myflix-title">myFlix API Login</h1>
       <Form className="login-form">
         <Form.Group controlId="formUsername">
@@ -27,9 +31,13 @@ export function LoginView(props) {
           <Form.Control type="password" placeholder="Enter password" value={password} onChange={e => setPassword(e.target.value)} />
           <Form.Text className="text-muted">
             We'll never share your credentials with anyone else.
-        </Form.Text>
+          </Form.Text>
         </Form.Group>
         <Button className="submit-button" variant="primary" type="button" onClick={handleSubmit}>Submit</Button>
+        <Form.Group className="registration-group" controlId="formRegistration">
+          <Form.Text className="text-muted">Don't have an account?</Form.Text>
+          <a className="register-link" onClick={handleRegistration}>Register here</a>
+        </Form.Group>
       </Form>
     </div>
   );

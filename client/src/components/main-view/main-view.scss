@@ -1,7 +1,21 @@
 $blue: #05386B;
 $green: #379683;
 
+.main-view {
+  background-color: #FFFFF0;
+}
+
 .myflix-movies {
   margin: 2rem auto;
   color: $blue;
+}
+
+.myflix-logout {
+  text-decoration: underline;
+  color: $green;
+}
+
+.myflix-logout:hover{
+  cursor: pointer;
+  text-decoration: none;
 }

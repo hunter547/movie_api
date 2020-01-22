@@ -1,5 +1,14 @@
 $blue: #05386B;
 $green: #379683;
+$background: #FFFFF0;
+
+html {
+  background-color: $background;
+}
+
+.login-view {
+  background-color: $background;
+}
 
 .login-form {
   margin: 10rem auto;
@@ -15,4 +24,17 @@ $green: #379683;
 
 .submit-button {
   background-color: $green;
+}
+
+.registration-group {
+  margin: 0 auto;
+  width: 30%;
+}
+
+.register-link {
+  text-decoration: underline;
+}
+
+.register-link:hover{
+  cursor: pointer;
 }
