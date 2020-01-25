@@ -37948,6 +37948,8 @@ exports.LoginView = LoginView;
 
 var _react = _interopRequireWildcard(require("react"));
 
+var _axios = _interopRequireDefault(require("axios"));
+
 require("./login-view.scss");
 
 var _Form = _interopRequireDefault(require("react-bootstrap/Form"));
@@ -37979,11 +37981,20 @@ function LoginView(props) {
       password = _useState4[0],
       setPassword = _useState4[1];
 
-  var handleSubmit = function handleSubmit() {
+  var handleSubmit = function handleSubmit(e) {
+    e.preventDefault();
     console.log(username, password);
     /* Send a request to the server for authentication */
 
-    props.onLoggedIn(username);
+    _axios.default.post('https://my-flix-api-evanoff.herokuapp.com/login', {
+      Username: username,
+      Password: password
+    }).then(function (response) {
+      var data = response.data;
+      props.onLoggedIn(data);
+    }).catch(function (e) {
+      console.log(e);
+    });
   };
 
   var handleRegistration = function handleRegistration() {
@@ -38031,7 +38042,7 @@ function LoginView(props) {
     onClick: handleRegistration
   }, "Register here"))));
 }
-},{"react":"../node_modules/react/index.js","./login-view.scss":"components/login-view/login-view.scss","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js"}],"components/registration-view/registration-view.scss":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","./login-view.scss":"components/login-view/login-view.scss","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js"}],"components/registration-view/registration-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -39104,19 +39115,6 @@ function (_React$Component) {
   }
 
   _createClass(MainView, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      _axios.default.get('https://my-flix-api-evanoff.herokuapp.com/movies').then(function (response) {
-        _this2.setState({
-          movies: response.data
-        });
-      }).catch(function (error) {
-        console.log(error);
-      });
-    }
-  }, {
     key: "onMovieClick",
     value: function onMovieClick(movie) {
       this.setState({
@@ -39125,16 +39123,37 @@ function (_React$Component) {
     }
   }, {
     key: "onLoggedIn",
-    value: function onLoggedIn(user) {
+    value: function onLoggedIn(authData) {
+      console.log(authData);
       this.setState({
-        user: user
+        user: authData.user.username
       });
+      localStorage.setItem('token', authData.token);
+      localStorage.setItem('user', authData.user.username);
+      this.getMovies(authData.token);
     }
   }, {
     key: "onNeedRegistration",
     value: function onNeedRegistration(registration) {
       this.setState({
         registration: registration
+      });
+    }
+  }, {
+    key: "getMovies",
+    value: function getMovies(token) {
+      var _this2 = this;
+
+      _axios.default.get('https://my-flix-api-evanoff.herokuapp.com/movies', {
+        headers: {
+          Authorization: 'Bearer ${token}'
+        }
+      }).then(function (response) {
+        _this2.setState({
+          movies: response.data
+        });
+      }).catch(function (error) {
+        console.log(error);
       });
     }
   }, {
