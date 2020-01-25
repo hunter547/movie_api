@@ -45,7 +45,7 @@ app.get('/documentation', function(req, res) {
   app.use(express.static('public'));
 });
 app.get('/movies', passport.authenticate('jwt', { session: false }), function(req, res) {
-  Movies.find({}, '-_id')
+  Movies.find({})
     .populate('director', '-_id name')
     .populate('genre', '-_id name')
     .exec(function(err, movie) {

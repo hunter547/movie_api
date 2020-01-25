@@ -49,7 +49,7 @@ onMovieClick(movie) {
 
   getMovies(token) {
     axios.get('https://my-flix-api-evanoff.herokuapp.com/movies', {
-      headers: { Authorization: 'Bearer ${token}' }
+      headers: { Authorization: 'Bearer ' + token }
     })
     .then(response => {
       this.setState({
