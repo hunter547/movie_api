@@ -46,8 +46,8 @@ app.get('/documentation', function(req, res) {
 });
 app.get('/movies', passport.authenticate('jwt', { session: false }), function(req, res) {
   Movies.find({})
-    .populate('director', '-_id name')
-    .populate('genre', '-_id name')
+    .populate('director')
+    .populate('genre')
     .exec(function(err, movie) {
       if (err) return console.error(err);
       res.status(201).json(movie)
@@ -67,8 +67,8 @@ app.get('/users', passport.authenticate('jwt', { session: false }), function(req
 
 app.get('/movies/:name', passport.authenticate('jwt', { session: false }), function(req, res) {
   Movies.findOne({ title: req.params.name }, '-_id')
-    .populate('director', '-_id name')
-    .populate('genre', '-_id name')
+    .populate('director')
+    .populate('genre')
     .exec(function(err, movie) {
       if (err) return console.error(err);
       res.status(201).json(movie)
@@ -86,7 +86,7 @@ app.get('/genres/:name', passport.authenticate('jwt', { session: false }), funct
 });
 
 app.get('/directors/:name', passport.authenticate('jwt', { session: false }), function(req, res) {
-  Directors.findOne({ name: req.params.name }, '-_id')
+  Directors.findOne({ name: req.params.name })
     .then(function(director) {
       res.status(201).json(director)
     })
