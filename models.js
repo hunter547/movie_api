@@ -29,6 +29,7 @@ userSchema.methods.validatePassword = function(password) {
 
 var directorSchema = mongoose.Schema({
   name: { type: String, required: true },
+  imageurl: String,
   bio: { type: String, required: true },
   birthday: Date
 });
