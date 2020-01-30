@@ -65,6 +65,15 @@ app.get('/users', passport.authenticate('jwt', { session: false }), function(req
     })
 });
 
+app.get('/users/:user', passport.authenticate('jwt', { session: false }), function(req, res) {
+  Users.findOne({ username: req.params.username })
+    .populate('favorite_movies')
+    .exec(function(err, user) {
+      if (err) return console.error(err)
+      res.status(201).json(user)
+    });
+});
+
 app.get('/movies/:name', passport.authenticate('jwt', { session: false }), function(req, res) {
   Movies.findOne({ title: req.params.name }, '-_id')
     .populate('director')
