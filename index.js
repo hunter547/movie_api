@@ -66,7 +66,7 @@ app.get('/users', passport.authenticate('jwt', { session: false }), function(req
 });
 
 app.get('/users/:user', passport.authenticate('jwt', { session: false }), function(req, res) {
-  Users.findOne({ username: req.params.username })
+  Users.findOne({ username: req.params.user })
     .populate('favorite_movies')
     .exec(function(err, user) {
       if (err) return console.error(err)
