@@ -100,8 +100,43 @@ a:not([href]):not([tabindex]) {
   margin-top: 1rem;
 }
 
-.movie-card {
+.movie-view {
   margin: 0 auto;
+}
+.back-button {
+  background-color: #379683;
+  margin-top: 1rem;
+}
+
+.director-view {
+  margin: 0 auto;
+}
+.back-button {
+  background-color: #379683;
+  margin-top: 1rem;
+}
+
+.genre-view {
+  margin: 0 auto;
+}
+.profile-view {
+  background-color: #FFFFF0;
+}
+
+.profile-form {
+  margin: 10rem auto;
+  width: 30%;
+  color: #379683;
+}
+
+.myflix-title {
+  margin: 10rem auto;
+  width: 30%;
+  color: #05386B;
+}
+
+.submit-button {
+  background-color: #379683;
 }
 .my-flix {
   color: steelblue;

@@ -3,6 +3,8 @@ import axios from 'axios';
 import './login-view.scss'
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import { Link } from 'react-router-dom';
 
 export function LoginView(props) {
   const [username, setUsername] = useState('');
@@ -16,22 +18,18 @@ export function LoginView(props) {
       Username: username,
       Password: password
     })
-    .then(response => {
-      const data = response.data;
-      props.onLoggedIn(data);
-    })
-    .catch(e => {
-      console.log(e);
-    });
-  };
-
-  const handleRegistration = () => {
-    props.onNeedRegistration(true);
+      .then(response => {
+        const data = response.data;
+        props.onLoggedIn(data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
   };
 
 
   return (
-    <div className ="login-view">
+    <Container className="login-view" fluid="true">
       <h1 className="myflix-title">myFlix API Login</h1>
       <Form className="login-form">
         <Form.Group controlId="formUsername">
@@ -48,9 +46,11 @@ export function LoginView(props) {
         <Button className="submit-button" variant="primary" type="button" onClick={handleSubmit}>Submit</Button>
         <Form.Group className="registration-group" controlId="formRegistration">
           <Form.Text className="text-muted">Don't have an account?</Form.Text>
-          <a className="register-link" onClick={handleRegistration}>Register here</a>
+          <Link to={`/register`}>
+            <Button className="register-link">Register here</Button>
+          </Link>
         </Form.Group>
       </Form>
-    </div>
+    </Container>
   );
 }

@@ -100,7 +100,7 @@ a:not([href]):not([tabindex]) {
   margin-top: 1rem;
 }
 
-.movie-card {
+.movie-view {
   margin: 0 auto;
 }
 .my-flix {

@@ -4,6 +4,8 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import './movie-view.scss';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 export class MovieView extends React.Component {
 
@@ -13,11 +15,25 @@ export class MovieView extends React.Component {
     this.state = {};
   }
 
+  addToFavorites(movieID) {
+    let username = localStorage.getItem('user');
+    let token = localStorage.getItem('token');
+    axios({method: 'post',
+      url: 'https://my-flix-api-evanoff.herokuapp.com/users/'+username+'/Movies/'+movieID,
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+    .then(response => {
+      alert(response.data);
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+  }
+
 
   render() {
-    const { movie, mainview } = this.props;
+    const { movie } = this.props;
     var featured = '';
-
 
     if (!movie) return null;
 
@@ -29,7 +45,7 @@ export class MovieView extends React.Component {
     }
 
     return (
-      <Card className = "movie-card" style={{ width: '32rem' }}>
+      <Card className = "movie-view" style={{ width: '32rem' }}>
         <Card.Img variant="top" src={movie.imageurl} />
         <Card.Body>
           <Card.Title className = "movie-title">{movie.title}</Card.Title>
@@ -38,8 +54,13 @@ export class MovieView extends React.Component {
             <ListGroup.Item>Genre: {movie.genre.name}</ListGroup.Item>
             <ListGroup.Item>Director: {movie.director.name}</ListGroup.Item>
             <ListGroup.Item>Featured: {featured}</ListGroup.Item>
+            <ListGroup.Item>
+              <Button className = "back-button" onClick={this.addToFavorites(movie._id)}>Add to Favorites</Button>
+            </ListGroup.Item>
           </ListGroup>
-          <Button className="back-button" onClick={() => mainview(null)}>Back</Button>
+          <Link to = {`/`}>
+            <Button className="back-button">Back</Button>
+          </Link>
         </Card.Body>
       </Card>
     );
