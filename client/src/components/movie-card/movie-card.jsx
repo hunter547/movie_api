@@ -11,8 +11,8 @@ export class MovieCard extends React.Component {
   render() {
     const { movie } = this.props;
     return (
-      <Col style={{ maxWidth: '16rem', minWidth: '16rem' }}>
-        <Card style={{ maxWidth: '16rem', minWidth: '16rem' }}>
+      <Col className="card-columns" style={{ maxWidth: '18rem', minWidth: '18rem' }}>
+        <Card className="movie-card" style={{ maxWidth: '16rem', minWidth: '16rem' }}>
           <Card.Img variant="top" src={movie.imageurl} />
           <Card.Body>
             <Card.Title className="movie-title">{movie.title}</Card.Title>

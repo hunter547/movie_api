@@ -22,11 +22,10 @@ import { ProfileView } from '../profile-view/profile-view';
 export class MainView extends React.Component {
   constructor() {
     super();
-    
+
     this.state = {
       movies: [],
-      user: null,
-      registration: null
+      user: null
     };
   }
 
@@ -53,6 +52,7 @@ export class MainView extends React.Component {
 
   onLogOut(user) {
     localStorage.clear();
+    window.open('/', '_self');
     this.setState({
       user
     });
@@ -72,19 +72,23 @@ export class MainView extends React.Component {
       });
   }
 
+
   render() {
     const { movies, user } = this.state;
     if (!movies) return <Container className="main-view" fluid="true" />;
     return (
       <Router>
         <Container className="main-view" fluid="true">
+          { this.state.user?
           <Navbar className="navbar navbar-dark">
             <h1 className="myflix-movies">myFlix Spot</h1>
             <Link to ={`/users/${localStorage.getItem('user')}`}>
-              <Button className = "profile-button">Profile</Button>
+              <Button className = "profile-button">Your Profile</Button>
             </Link>
-            <a href="" className="myflix-logout" onClick={user => this.onLogOut(!user)}>Logout</a>
+            <a href="/" className="myflix-logout" onClick={user => this.onLogOut(!user)}>Logout</a>
           </Navbar>
+          :null
+         }
           <Row>
             <Route exact path="/" render={() => {
               if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
@@ -102,8 +106,9 @@ export class MainView extends React.Component {
               return <DirectorView director={movies.find(m => m.director.name === match.params.name).director} />
             }} />
             <Route path="/users/:username" render = { () => {
+              if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
               if (movies.length === 0) return <div className="main-view" />;
-              return <ProfileView movies={movies}/>
+              return <ProfileView onLogOut={user => this.onLogOut(!user)} />
             }} />
           </Row>
         </Container>

@@ -6,17 +6,49 @@ $green: #379683;
 }
 
 .profile-form {
-  margin: 10rem auto;
+  margin: 7rem auto;
   width: 30%;
   color: $green;
 }
 
+.form-buttons{
+  display: flex;
+  justify-content: space-between;
+}
+
 .myflix-title{
-  margin: 10rem auto;
+  margin: 7rem auto;
   width: 30%;
   color: $blue;
 }
 
-.submit-button {
+.update-button {
   background-color: $green;
+}
+
+.delete-button {
+  background-color: red;
+}
+
+.deregister-button {
+  margin: 7rem auto;
+  width: 30%;
+  background-color: red;
+}
+
+.favorite-movies{
+  display: flex;
+  justify-content: space-between;
+}
+
+.deregister-group {
+  margin: 1rem auto;
+  width: 30%;
+  color: $blue;
+}
+
+.deregister-list-group {
+  margin: auto;
+  width: 30%;
+  color: $blue;
 }

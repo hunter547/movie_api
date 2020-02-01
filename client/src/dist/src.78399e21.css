@@ -16,6 +16,10 @@
   cursor: pointer;
   text-decoration: none;
 }
+
+.profile-button {
+  margin-right: 2rem;
+}
 html {
   background-color: #FFFFF0;
 }
@@ -95,6 +99,10 @@ a:not([href]):not([tabindex]) {
 .btn-link {
   color: white;
 }
+
+.card-columns {
+  margin-left: 3rem;
+}
 .back-button {
   background-color: #379683;
   margin-top: 1rem;
@@ -124,19 +132,51 @@ a:not([href]):not([tabindex]) {
 }
 
 .profile-form {
-  margin: 10rem auto;
+  margin: 7rem auto;
   width: 30%;
   color: #379683;
 }
 
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
 .myflix-title {
-  margin: 10rem auto;
+  margin: 7rem auto;
   width: 30%;
   color: #05386B;
 }
 
-.submit-button {
+.update-button {
   background-color: #379683;
+}
+
+.delete-button {
+  background-color: red;
+}
+
+.deregister-button {
+  margin: 7rem auto;
+  width: 30%;
+  background-color: red;
+}
+
+.favorite-movies {
+  display: flex;
+  justify-content: space-between;
+}
+
+.deregister-group {
+  margin: 1rem auto;
+  width: 30%;
+  color: #05386B;
+}
+
+.deregister-list-group {
+  margin: auto;
+  width: 30%;
+  color: #05386B;
 }
 .my-flix {
   color: steelblue;

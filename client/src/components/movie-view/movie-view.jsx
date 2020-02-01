@@ -15,15 +15,16 @@ export class MovieView extends React.Component {
     this.state = {};
   }
 
-  addToFavorites(movieID) {
+  addToFavorites(e, movie) {
+    e.preventDefault();
     let username = localStorage.getItem('user');
     let token = localStorage.getItem('token');
     axios({method: 'post',
-      url: 'https://my-flix-api-evanoff.herokuapp.com/users/'+username+'/Movies/'+movieID,
+      url: `https://my-flix-api-evanoff.herokuapp.com/users/${username}/Movies/${movie._id}`,
       headers: { 'Authorization': `Bearer ${token}` }
     })
     .then(response => {
-      alert(response.data);
+      alert(`${movie.title} was added to your favorites`);
     })
     .catch(function(error) {
       console.log(error);
@@ -55,7 +56,7 @@ export class MovieView extends React.Component {
             <ListGroup.Item>Director: {movie.director.name}</ListGroup.Item>
             <ListGroup.Item>Featured: {featured}</ListGroup.Item>
             <ListGroup.Item>
-              <Button className = "back-button" onClick={this.addToFavorites(movie._id)}>Add to Favorites</Button>
+              <Button className = "back-button" onClick={(e) => this.addToFavorites(e, movie)}>Add to Favorites</Button>
             </ListGroup.Item>
           </ListGroup>
           <Link to = {`/`}>
