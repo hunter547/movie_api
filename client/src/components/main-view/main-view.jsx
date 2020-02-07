@@ -74,7 +74,7 @@ class MainView extends React.Component {
               <Link to={`/users/${localStorage.getItem('user')}`}>
                 <Button className="profile-button">Your Profile</Button>
               </Link>
-              <a href="/" className="myflix-logout" onClick={user => this.onLogOut(!user)}>Logout</a>
+              <a href="/client" className="myflix-logout" onClick={user => this.onLogOut(!user)}>Logout</a>
             </Navbar>
             : null
           }
