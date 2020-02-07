@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Container from 'react-bootstrap/Container';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
@@ -165,10 +166,10 @@ export class ProfileView extends React.Component {
         </Form>
         <Container className="profile-view" fluid="true">
           <h1 className="myflix-title">Favorite Movies</h1>
-          <ListGroup className="myflix-title" variant="flush">
+          <ListGroup className="favorites-groups" variant="flush">
             {userinfo.favorite_movies.length === 0 && <ListGroup.Item>You have no favorite movies.</ListGroup.Item>}
             {userinfo.favorite_movies.map(movie => {
-              return (<ListGroup.Item className="favorite-movies">
+              return (<ListGroup.Item key={movie.title}className="favorite-movies">
                 <div>
                   {movie.title}
                 </div>
@@ -189,4 +190,19 @@ export class ProfileView extends React.Component {
       </Container>
     );
   }
+}
+
+ProfileView.propTypes = {
+  userinfo: PropTypes.shape({
+    favorite_movies: PropTypes.arrayOf(
+      PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired
+      })
+    ),
+    name: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    birth_date: PropTypes.string.isRequired
+  })
 }

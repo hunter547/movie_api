@@ -7,7 +7,8 @@ const express = require('express'),
   passport = require('passport'),
   cors = require('cors'),
   { check, validationResult } = require('express-validator'),
-  app = express();
+  app = express(),
+  path = require('path');
 
 require('./passport');
 
@@ -37,13 +38,17 @@ app.use(cors({
   }
 }));
 
+app.use('/client', express.static(path.join(__dirname, 'client', 'dist')));
+app.get('/client/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+});
+app.use(express.static('public'));
+
 // GET requests
 app.get('/', function(req, res) {
   res.send('Welcome to my movie api!')
 });
-app.get('/documentation', function(req, res) {
-  app.use(express.static('public'));
-});
+
 app.get('/movies', passport.authenticate('jwt', { session: false }), function(req, res) {
   Movies.find({})
     .populate('director')

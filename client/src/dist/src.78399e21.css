@@ -5,11 +5,13 @@
 .myflix-movies {
   margin: 2rem auto;
   color: #05386B;
+  font-family: "Monoton", cursive;
 }
 
 .myflix-logout {
   text-decoration: underline;
   color: #379683;
+  font-family: "Josefin Sans", sans-serif;
 }
 
 .myflix-logout:hover {
@@ -19,6 +21,7 @@
 
 .profile-button {
   margin-right: 2rem;
+  font-family: "Josefin Sans", sans-serif;
 }
 html {
   background-color: #FFFFF0;
@@ -26,6 +29,7 @@ html {
 
 .login-view {
   background-color: #FFFFF0;
+  font-family: "Raleway", sans-serif;
 }
 
 .login-form {
@@ -58,6 +62,7 @@ a:not([href]):not([tabindex]) {
 }
 .registration-view {
   background-color: #FFFFF0;
+  font-family: "Raleway", sans-serif;
 }
 
 .registration-form {
@@ -88,12 +93,29 @@ a:not([href]):not([tabindex]) {
 .login-link:hover {
   cursor: pointer;
 }
+.search-box {
+  margin-left: 4rem;
+  min-width: 16rem;
+  max-width: 16rem;
+  font-family: "Raleway", sans-serif;
+}
+
+.search-div {
+  width: 100%;
+  margin-bottom: 2rem;
+}
 .movie-title {
   color: #379683;
+  font-family: "Josefin Sans", sans-serif;
+}
+
+.movie-description {
+  font-family: "Raleway", sans-serif;
 }
 
 .open-button {
   background-color: #379683;
+  font-family: "Raleway", sans-serif;
 }
 
 .btn-link {
@@ -103,6 +125,18 @@ a:not([href]):not([tabindex]) {
 .card-columns {
   margin-left: 3rem;
 }
+.movies-list {
+  margin: 0 auto;
+  width: 100%;
+}
+.movie-view {
+  font-family: "Raleway", sans-serif;
+}
+
+.movie-title {
+  font-family: "Josefin Sans", sans-serif;
+}
+
 .back-button {
   background-color: #379683;
   margin-top: 1rem;
@@ -118,6 +152,11 @@ a:not([href]):not([tabindex]) {
 
 .director-view {
   margin: 0 auto;
+  font-family: "Raleway", sans-serif;
+}
+
+.director-name {
+  font-family: "Josefin Sans", sans-serif;
 }
 .back-button {
   background-color: #379683;
@@ -126,9 +165,15 @@ a:not([href]):not([tabindex]) {
 
 .genre-view {
   margin: 0 auto;
+  font-family: "Raleway", sans-serif;
+}
+
+.genre-name {
+  font-family: "Josefin Sans", sans-serif;
 }
 .profile-view {
   background-color: #FFFFF0;
+  font-family: "Raleway", sans-serif;
 }
 
 .profile-form {
@@ -143,6 +188,13 @@ a:not([href]):not([tabindex]) {
 }
 
 .myflix-title {
+  margin: 7rem auto;
+  width: 30%;
+  color: #05386B;
+  font-family: "Josefin Sans", sans-serif;
+}
+
+.favorites-groups {
   margin: 7rem auto;
   width: 30%;
   color: #05386B;
@@ -171,12 +223,21 @@ a:not([href]):not([tabindex]) {
   margin: 1rem auto;
   width: 30%;
   color: #05386B;
+  font-family: "Josefin Sans", sans-serif;
 }
 
 .deregister-list-group {
+  margin: 0 auto;
+  width: 30%;
+  color: #05386B;
+}
+
+.loader {
+  font-family: "Josefin Sans", sans-serif;
   margin: auto;
   width: 30%;
   color: #05386B;
+  font-size: 2rem;
 }
 .my-flix {
   color: steelblue;

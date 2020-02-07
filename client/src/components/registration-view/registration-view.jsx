@@ -6,7 +6,7 @@ import Container from 'react-bootstrap/Container';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-export function RegistrationView(props) {
+export function RegistrationView() {
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -27,7 +27,7 @@ export function RegistrationView(props) {
       .then(response => {
         const data = response.data;
         console.log(data);
-        window.open('/', '_self');
+        window.open('/client', '_self');
       })
       .catch(e => {
         console.log(e);

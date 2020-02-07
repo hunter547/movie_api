@@ -3,6 +3,7 @@ $green: #379683;
 
 .profile-view {
   background-color: #FFFFF0;
+  font-family: 'Raleway', sans-serif;
 }
 
 .profile-form {
@@ -17,6 +18,13 @@ $green: #379683;
 }
 
 .myflix-title{
+  margin: 7rem auto;
+  width: 30%;
+  color: $blue;
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+.favorites-groups {
   margin: 7rem auto;
   width: 30%;
   color: $blue;
@@ -45,10 +53,19 @@ $green: #379683;
   margin: 1rem auto;
   width: 30%;
   color: $blue;
+  font-family: 'Josefin Sans', sans-serif;
 }
 
 .deregister-list-group {
+  margin: 0 auto;
+  width: 30%;
+  color: $blue;
+}
+
+.loader {
+  font-family: 'Josefin Sans', sans-serif;
   margin: auto;
   width: 30%;
   color: $blue;
+  font-size: 2rem;
 }

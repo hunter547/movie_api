@@ -3,10 +3,16 @@ $green: #379683;
 
 .movie-title {
   color: $green;
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+.movie-description {
+  font-family: 'Raleway', sans-serif;
 }
 
 .open-button {
   background-color: $green;
+  font-family: 'Raleway', sans-serif;
 }
 
 .btn-link {

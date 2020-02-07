@@ -8,11 +8,13 @@ $green: #379683;
 .myflix-movies {
   margin: 2rem auto;
   color: $blue;
+  font-family: 'Monoton', cursive;
 }
 
 .myflix-logout {
   text-decoration: underline;
   color: $green;
+  font-family: 'Josefin Sans', sans-serif;
 }
 
 .myflix-logout:hover{
@@ -22,4 +24,5 @@ $green: #379683;
 
 .profile-button {
   margin-right: 2rem;
+  font-family: 'Josefin Sans', sans-serif;
 }
