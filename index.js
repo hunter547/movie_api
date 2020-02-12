@@ -86,9 +86,8 @@ app.get('/users/:user/Movies/:MovieID', passport.authenticate('jwt', { session: 
       if (err) return console.error(err)
       var inFavorites = false;
       user.favorite_movies.forEach(favorite_movie => {
-        if (favorite_movie == req.params.MovieID) {
+        if (favorite_movie._id == req.params.MovieID) {
           inFavorites = true;
-          console.log('In favorites');
         }
       })
       res.status(201).json(inFavorites);
