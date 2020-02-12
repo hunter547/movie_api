@@ -79,7 +79,7 @@ app.get('/users/:user', passport.authenticate('jwt', { session: false }), functi
     });
 });
 
-app.get('/users/:user/:MovieID', passport.authenticate('jwt', { session: false }), function(req, res) {
+app.get('/users/:user/Movies/:MovieID', passport.authenticate('jwt', { session: false }), function(req, res) {
   Users.findOne({ username: req.params.user })
     .populate('favorite_movies')
     .exec(function(err, user) {
@@ -88,15 +88,10 @@ app.get('/users/:user/:MovieID', passport.authenticate('jwt', { session: false }
       user.favorite_movies.forEach(favorite_movie => {
         if (favorite_movie == req.params.MovieID) {
           inFavorites = true;
+          console.log('In favorites');
         }
       })
-      if (inFavorites) {
-        res.status(201).json(true);
-      }
-      else {
-        res.status(201).json(false);
-      }
-
+      res.status(201).json(inFavorites);
     });
 });
 
