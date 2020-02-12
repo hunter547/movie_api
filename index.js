@@ -79,6 +79,27 @@ app.get('/users/:user', passport.authenticate('jwt', { session: false }), functi
     });
 });
 
+app.get('/users/:user/:MovieID', passport.authenticate('jwt', { session: false }), function(req, res) {
+  Users.findOne({ username: req.params.user })
+    .populate('favorite_movies')
+    .exec(function(err, user) {
+      if (err) return console.error(err)
+      var inFavorites = false;
+      user.favorite_movies.forEach(favorite_movie => {
+        if (favorite_movie == req.params.MovieID) {
+          inFavorites = true;
+        }
+      })
+      if (inFavorites) {
+        res.status(201).json(true);
+      }
+      else {
+        res.status(201).json(false);
+      }
+
+    });
+});
+
 app.get('/movies/:name', passport.authenticate('jwt', { session: false }), function(req, res) {
   Movies.findOne({ title: req.params.name }, '-_id')
     .populate('director')
