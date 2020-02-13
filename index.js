@@ -141,8 +141,10 @@ check('email', 'Email does not appear to be valid').isEmail()], function(req, re
   Users.findOne({ username: req.body.username })
     .then(function(user) {
       if (user) {
-        return res.status(400).send('User "' + req.body.username
-          + '" already exists, please try a different one.');
+        return res.status(200).json({
+          user: !user,
+          message:'Username already being used.'
+        });
       }
       else {
         Users.create({
