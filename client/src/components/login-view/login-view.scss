@@ -38,3 +38,7 @@ a:not([href]):not([tabindex]){
 .register-link:hover{
   cursor: pointer;
 }
+
+.incorrect-text {
+  color: #dc3545;
+}

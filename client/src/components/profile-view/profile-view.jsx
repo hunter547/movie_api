@@ -4,6 +4,9 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Container from 'react-bootstrap/Container';
+import Popover from 'react-bootstrap/Popover';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Spinner from 'react-bootstrap/Spinner';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -13,14 +16,18 @@ export class ProfileView extends React.Component {
   constructor() {
     super();
 
-    this.name = null
-    this.username = null,
+    this.name = null,
+      this.username = null,
       this.password = null,
       this.email = null,
       this.birth_date = null
 
     this.state = {
       userinfo: null,
+      validated: null,
+      used: null,
+      show: null,
+      initial: true,
       onLogOut: null
     };
   }
@@ -51,7 +58,6 @@ export class ProfileView extends React.Component {
       headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
     })
       .then(response => {
-        alert(response.data);
         this.setState({
           userinfo: null
         })
@@ -63,6 +69,22 @@ export class ProfileView extends React.Component {
   }
 
   updateUser(e, name, username, password, email, birth_date, userinfo) {
+    this.setState({
+      used: null,
+      show: null,
+      validated: null,
+      initial: null
+    })
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.setState({
+        validated: true,
+        show: null
+      })
+      return;
+    }
     e.preventDefault();
     axios({
       method: 'put',
@@ -78,10 +100,22 @@ export class ProfileView extends React.Component {
 
     })
       .then(response => {
-        alert('Your account has been updated');
+        if (response.status === 200) {
+          this.setState({
+            used: true,
+            validated: true,
+            show: null
+          })
+        }
+        else {
+          localStorage.setItem('user', response.data.username);
+          this.setState({
+            show: true
+          })
+        }
       })
       .catch(error => {
-        alert(error);
+
       })
   }
 
@@ -93,7 +127,6 @@ export class ProfileView extends React.Component {
       headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
     })
       .then(response => {
-        alert(response.data + ' You will now be taken back to the login screen.');
         this.props.onLogOut(true);
       })
       .catch(error => {
@@ -106,8 +139,11 @@ export class ProfileView extends React.Component {
     this.name = input;
   }
 
-  setUsername(input) {
+  setUsernameAndUsed(input) {
     this.username = input;
+    this.setState({
+      used: null
+    })
   }
 
   setPassword(input) {
@@ -124,52 +160,97 @@ export class ProfileView extends React.Component {
 
   render() {
 
-    const { userinfo } = this.state;
-    if (!userinfo) return <div className="loader">Loading...</div>;
+    const { userinfo, validated, used, show, initial } = this.state;
+    const processPopover = (
+      <Popover id="popover-process">
+        <Popover.Title as="h3">Updating...</Popover.Title>
+        <Popover.Content>
+          <Spinner className="loader-spinner" animation="border" size="sm" role="status">
+            <span className="sr-only">Loading...</span>
+          </Spinner>
+        </Popover.Content>
+      </Popover>
+    );
+    const successPopover = (
+      <Popover id="popover-success">
+        <Popover.Title as="h3">Success</Popover.Title>
+        <Popover.Content>
+          Your infomation was updated.
+        </Popover.Content>
+      </Popover>
+    );
+    if (!userinfo) return <Spinner className="loader-spinner" animation="border" role="status">
+      <span className="sr-only">Loading...</span>
+    </Spinner>;
     return (
       <Container className="profile-view" fluid="true">
         <h1 className="myflix-title">Update Profile</h1>
-        <Form className="profile-form">
+        <Form noValidate validated={validated} onSubmit={(e) => this.updateUser(e, this.name, this.username, this.password, this.email, this.birth_date, userinfo)} className="profile-form">
           <Form.Group controlId="formName">
             <Form.Label>Name</Form.Label>
-            <Form.Control type="text" placeholder="Enter name" defaultValue={userinfo.name} onChange={e => this.setName(e.target.value)} />
+            <Form.Control type="text" placeholder="Enter name" defaultValue={userinfo.name} required onChange={e => this.setName(e.target.value)} />
+            <Form.Control.Feedback type="invalid">
+              Please enter a name.
+            </Form.Control.Feedback>
           </Form.Group>
           <Form.Group controlId="formUsername">
             <Form.Label>Username</Form.Label>
-            <Form.Control type="text" placeholder="Enter username" defaultValue={userinfo.username} onChange={e => this.setUsername(e.target.value)} />
+            <Form.Control type="text" placeholder="Enter username" defaultValue={userinfo.username} pattern="^[a-zA-Z0-9]{5,}" required onChange={e => this.setUsernameAndUsed(e.target.value)} />
+            <Form.Control.Feedback type="invalid">
+              Please choose a username that's at least 5 characters and is alphanumeric.
+            </Form.Control.Feedback>
+            {!used ? null
+              :
+              <Form.Text className="incorrect-text">
+                Username is already being used.
+            </Form.Text>}
           </Form.Group>
           <Form.Group controlId="formPassword">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Enter a new password" defaultValue="" onChange={e => this.setPassword(e.target.value)} />
+            <Form.Control type="password" placeholder="Enter a new password" defaultValue="" required onChange={e => this.setPassword(e.target.value)} />
+            <Form.Control.Feedback type="invalid">
+              Please enter a password.
+            </Form.Control.Feedback>
           </Form.Group>
           <Form.Group controlId="formEmail">
             <Form.Label>Email</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" defaultValue={userinfo.email} onChange={e => this.setEmail(e.target.value)} />
+            <Form.Control type="email" placeholder="Enter email" defaultValue={userinfo.email} pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" required onChange={e => this.setEmail(e.target.value)} />
+            <Form.Control.Feedback type="invalid">
+              Please enter an email in the correct format.
+            </Form.Control.Feedback>
             <Form.Text className="text-muted">
               We'll never share your credentials or email with anyone else.
-          </Form.Text>
+            </Form.Text>
           </Form.Group>
           <Form.Group controlId="formBirthday">
             <Form.Label>Birthdate</Form.Label>
-            <Form.Control type="date" placeholder="Enter birthdate" defaultValue={userinfo.birth_date.split('T')[0]} onChange={e => this.setBirthDate(e.target.value)} />
+            <Form.Control type="date" placeholder="Enter birthdate" min="1900-01-01" max={new Date().toISOString().split('T')[0]} required defaultValue={userinfo.birth_date.split('T')[0]} onChange={e => this.setBirthDate(e.target.value)} />
+            <Form.Control.Feedback type="invalid">
+              Please enter a birthdate.
+            </Form.Control.Feedback>
           </Form.Group>
-          <div className="form-buttons">
-            <div>
-              <Button className="update-button" variant="primary" type="button" onClick={(e) => this.updateUser(e, this.name, this.username, this.password, this.email, this.birth_date, userinfo)}>Update</Button>
-            </div>
-            <div>
-              <Link to={`/`}>
-                <Button className="update-button">Go Back</Button>
-              </Link>
-            </div>
-          </div>
+          {show ?
+            <OverlayTrigger defaultShow placement="right" overlay={successPopover}>
+              <Button className="update-button" variant="primary" type="submit">Update</Button>
+            </OverlayTrigger>
+            :
+            validated ?
+              <Button className="update-button" variant="primary" type="submit">Update</Button>
+            :
+            initial ?
+              <Button className="update-button" variant="primary" type="submit">Update</Button>
+            :
+            <OverlayTrigger defaultShow placement="right" overlay={processPopover}>
+              <Button className="update-button" variant="primary" type="submit">Update</Button>
+            </OverlayTrigger>
+          }
         </Form>
         <Container className="profile-view" fluid="true">
           <h1 className="myflix-title">Favorite Movies</h1>
           <ListGroup className="favorites-groups" variant="flush">
             {userinfo.favorite_movies.length === 0 && <ListGroup.Item>You have no favorite movies.</ListGroup.Item>}
             {userinfo.favorite_movies.map(movie => {
-              return (<ListGroup.Item key={movie.title}className="favorite-movies">
+              return (<ListGroup.Item key={movie.title} className="favorite-movies">
                 <div>
                   {movie.title}
                 </div>

@@ -9,14 +9,14 @@ import './main-view.scss';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { setMovies, setUser } from '../../actions/actions';
+import { setMovies, setUser, setButton } from '../../actions/actions';
 
 
 import { LoginView } from '../login-view/login-view';
 import { RegistrationView } from '../registration-view/registration-view';
 import MoviesList from '../movies-list/movies-list';
 import { MovieCard } from '../movie-card/movie-card';
-import { MovieView } from '../movie-view/movie-view';
+import  MovieView  from '../movie-view/movie-view';
 import { DirectorView } from '../director-view/director-view';
 import { GenreView } from '../genre-view/genre-view';
 import { ProfileView } from '../profile-view/profile-view';
@@ -49,6 +49,10 @@ class MainView extends React.Component {
     this.props.setUser(user);
   }
 
+  switchButtons(view) {
+    this.props.setButton(view);
+  }
+
   getMovies(token) {
     axios.get('https://my-flix-api-evanoff.herokuapp.com/movies', {
       headers: { Authorization: `Bearer ${token}` }
@@ -63,18 +67,24 @@ class MainView extends React.Component {
 
 
   render() {
-    let { movies, user } = this.props;
+    let { movies, user, button } = this.props;
     if (!movies) return <Container className="main-view" fluid="true" />;
     return (
-      <Router basename = "/client">
+      <Router basename="/client">
         <Container className="main-view" fluid="true">
           {this.props.user ?
             <Navbar className="navbar navbar-dark">
               <h1 className="myflix-movies">myFlix Spot</h1>
+              {this.props.user && window.location.href.includes('users') && button ?
+              <Link to={`/`}>
+                <Button className="back-button-main" onClick={() => this.switchButtons(false)}>Back</Button>
+              </Link>  :
               <Link to={`/users/${localStorage.getItem('user')}`}>
-                <Button className="profile-button">Your Profile</Button>
+                <Button className="profile-button" onClick={() => this.switchButtons(true)}>Your Profile</Button>
+              </Link>}
+              <Link to={`/`}>
+                <Button className="myflix-logout" onClick={user => this.onLogOut(!user)}>Logout</Button>
               </Link>
-              <a href="/client" className="myflix-logout" onClick={user => this.onLogOut(!user)}>Logout</a>
             </Navbar>
             : null
           }
@@ -107,10 +117,10 @@ class MainView extends React.Component {
 }
 
 let mapStateToProps = state => {
-  return { movies: state.movies, user: state.user }
+  return { movies: state.movies, user: state.user, button: state.button }
 }
 
-export default connect(mapStateToProps, { setMovies, setUser })(MainView);
+export default connect(mapStateToProps, { setMovies, setUser, setButton })(MainView);
 
 MainView.propTypes = {
   movies: PropTypes.arrayOf(

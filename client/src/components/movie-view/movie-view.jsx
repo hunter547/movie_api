@@ -4,62 +4,79 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import './movie-view.scss';
+import { setFavorite } from '../../actions/actions';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-export class MovieView extends React.Component {
+const mapStateToProps = state => {
+  const { favorite } = state;
+  return { favorite };
+};
 
-  constructor() {
-    super();
+function MovieView(props) {
+  const { movie, favorite } = props;
 
-    this.state = {};
-  }
+  (function () {
+    axios.get(`https://my-flix-api-evanoff.herokuapp.com/users/${localStorage.getItem('user')}/Movies/${props.movie._id}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+    })
+      .then(response => {
+        props.setFavorite(response.data);
+      })
+      .catch(function(error) {
+        console.log(error);
+    });
 
-  addToFavorites(e, movie) {
+  })();
+
+  const addToFavorites = (e) => {
     e.preventDefault();
     let username = localStorage.getItem('user');
     let token = localStorage.getItem('token');
-    axios({method: 'post',
-      url: `https://my-flix-api-evanoff.herokuapp.com/users/${username}/Movies/${movie._id}`,
+    axios({
+      method: 'post',
+      url: `https://my-flix-api-evanoff.herokuapp.com/users/${username}/Movies/${props.movie._id}`,
       headers: { 'Authorization': `Bearer ${token}` }
     })
-    .then(response => {
-      alert(`${movie.title} was added to your favorites`);
-    })
-    .catch(function(error) {
-      console.log(error);
-    });
+      .then(response => {
+        props.setFavorite(true);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
   }
-
-
-  render() {
-    const { movie } = this.props;
     var featured = '';
 
-    if (!movie) return null;
+    if (!props.movie) return null;
 
-    if (movie.featured) {
+    if (props.movie.featured) {
       featured = 'Yes';
     }
     else {
       featured = 'No';
-    }
 
     return (
-      <Card className = "movie-view" style={{ width: '32rem' }}>
-        <Card.Img variant="top" src={movie.imageurl} />
+      <Card className="movie-view" style={{ width: '32rem' }}>
+        <Card.Img variant="top" src={props.movie.imageurl} />
         <Card.Body>
-          <Card.Title className = "movie-title">{movie.title}</Card.Title>
-          <Card.Text className = "movie-description">{movie.description}</Card.Text>
-          <ListGroup variant ="flush">
-            <ListGroup.Item>Genre: {movie.genre.name}</ListGroup.Item>
-            <ListGroup.Item>Director: {movie.director.name}</ListGroup.Item>
+          <Card.Title className="movie-title">{props.movie.title}</Card.Title>
+          <Card.Text className="movie-description">{props.movie.description}</Card.Text>
+          <ListGroup variant="flush">
+            <ListGroup.Item>Genre: {props.movie.genre.name}</ListGroup.Item>
+            <ListGroup.Item>Director: {props.movie.director.name}</ListGroup.Item>
             <ListGroup.Item>Featured: {featured}</ListGroup.Item>
-            <ListGroup.Item>
-              <Button className = "back-button" onClick={(e) => this.addToFavorites(e, movie)}>Add to Favorites</Button>
-            </ListGroup.Item>
+            {favorite ?
+              <ListGroup.Item>
+                <Button className="disabled-button" variant="secondary" disabled>Favorited</Button>
+              </ListGroup.Item>
+              :
+              <ListGroup.Item>
+                <Button className="back-button" onClick={addToFavorites}>Add to Favorites</Button>
+              </ListGroup.Item>
+            }
           </ListGroup>
-          <Link to = {`/`}>
+          <Link to={`/`}>
             <Button className="back-button">Back</Button>
           </Link>
         </Card.Body>
@@ -67,6 +84,8 @@ export class MovieView extends React.Component {
     );
   }
 }
+
+export default connect(mapStateToProps, { setFavorite })(MovieView);
 
 MovieView.propTypes = {
   movie: PropTypes.shape({

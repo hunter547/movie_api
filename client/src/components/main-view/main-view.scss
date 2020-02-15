@@ -14,15 +14,32 @@ $green: #379683;
 .myflix-logout {
   text-decoration: underline;
   color: $green;
+  background-color: transparent;
+  border-radius: 0rem;
+  border-color: transparent;
+  padding: 0rem;
   font-family: 'Josefin Sans', sans-serif;
 }
 
 .myflix-logout:hover{
   cursor: pointer;
   text-decoration: none;
+  color: darken($green, 10%);
+  background-color: transparent;
+  border-color: transparent;
 }
 
 .profile-button {
   margin-right: 2rem;
   font-family: 'Josefin Sans', sans-serif;
+}
+
+.back-button-main {
+  margin-right: 2rem;
+  font-family: 'Josefin Sans', sans-serif;
+  background-color: red;
+}
+
+.back-button-main:hover {
+  background-color: darken(red, 10%);
 }

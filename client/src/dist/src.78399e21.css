@@ -11,17 +11,34 @@
 .myflix-logout {
   text-decoration: underline;
   color: #379683;
+  background-color: transparent;
+  border-radius: 0rem;
+  border-color: transparent;
+  padding: 0rem;
   font-family: "Josefin Sans", sans-serif;
 }
 
 .myflix-logout:hover {
   cursor: pointer;
   text-decoration: none;
+  color: #297162;
+  background-color: transparent;
+  border-color: transparent;
 }
 
 .profile-button {
   margin-right: 2rem;
   font-family: "Josefin Sans", sans-serif;
+}
+
+.back-button-main {
+  margin-right: 2rem;
+  font-family: "Josefin Sans", sans-serif;
+  background-color: red;
+}
+
+.back-button-main:hover {
+  background-color: #cc0000;
 }
 html {
   background-color: #FFFFF0;
@@ -60,6 +77,10 @@ a:not([href]):not([tabindex]) {
 .register-link:hover {
   cursor: pointer;
 }
+
+.incorrect-text {
+  color: #dc3545;
+}
 .registration-view {
   background-color: #FFFFF0;
   font-family: "Raleway", sans-serif;
@@ -92,6 +113,10 @@ a:not([href]):not([tabindex]) {
 
 .login-link:hover {
   cursor: pointer;
+}
+
+.incorrect-text {
+  color: #dc3545;
 }
 .search-box {
   margin-left: 4rem;
@@ -139,6 +164,10 @@ a:not([href]):not([tabindex]) {
 
 .back-button {
   background-color: #379683;
+  margin-top: 1rem;
+}
+
+.disabled-button {
   margin-top: 1rem;
 }
 
@@ -232,12 +261,9 @@ a:not([href]):not([tabindex]) {
   color: #05386B;
 }
 
-.loader {
-  font-family: "Josefin Sans", sans-serif;
+.loader-spinner {
   margin: auto;
-  width: 30%;
   color: #05386B;
-  font-size: 2rem;
 }
 .my-flix {
   color: steelblue;
