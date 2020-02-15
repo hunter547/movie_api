@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 app.use(cors());
 auth = require('./auth.js')(app);
 
-var allowedOrigins = ['http://localhost:8080', 'http://testsite.com','http://localhost:1234'];
+var allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234'];
 app.use(cors({
   origin: function(origin, callback) {
     if (!origin) return callback(null, true);
@@ -143,7 +143,7 @@ check('email', 'Email does not appear to be valid').isEmail()], function(req, re
       if (user) {
         return res.status(200).json({
           user: !user,
-          message:'Username already being used.'
+          message: 'Username already being used.'
         });
       }
       else {
@@ -251,94 +251,108 @@ app.post('/users/:Username/Movies/:MovieID', passport.authenticate('jwt', { sess
 
 // PUT requests
 app.put('/users/:username', passport.authenticate('jwt', { session: false }),
-[check('username', 'Username is required').isLength({ min: 5 }),
-check('username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
-check('password', 'Password is required').not().isEmpty(),
-check('email', 'Email does not appear to be valid').isEmail()], function(req, res) {
+  [check('username', 'Username is required').isLength({ min: 5 }),
+  check('username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+  check('password', 'Password is required').not().isEmpty(),
+  check('email', 'Email does not appear to be valid').isEmail()], function(req, res) {
 
-  // check the validation object for errors
-  var errors = validationResult(req);
+    // check the validation object for errors
+    var errors = validationResult(req);
 
-  if (!errors.isEmpty()) {
-    return res.status(422).json({ errors: errors.array() });
-  }
-
-  var hashedPassword = Users.hashPassword(req.body.password);
-
-  Users.findOneAndUpdate({ username: req.params.username }, {
-    $set:
-    {
-      name: req.body.name,
-      username: req.body.username,
-      password: hashedPassword,
-      email: req.body.email,
-      birth_date: req.body.birth_date
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
     }
-  }, { new: true })
-    .populate('favorite_movies', '-_id title')
-    .exec(function(err, updatedUser) {
-      if (err) {
-        console.error(err);
-        res.status(500).send("Error " + err);
-      } else {
-        updatedUser = JSON.parse(JSON.stringify(updatedUser, ["_id", "name", "username"
-          , "password", "email", "birth_date", "favorite_movies", "title"], 0));
-        res.json(updatedUser);
-      }
-    })
-});
 
-// DELETE requests
-app.delete('/users/:Username/Movies/:MovieID', passport.authenticate('jwt', { session: false }), function(req, res) {
-  Users.findOneAndUpdate({ username: req.params.Username }, {
-    $pull: { favorite_movies: req.params.MovieID }
-  }).populate('favorite_movies', 'title')
-    .exec(function(err, user) {
-      if (err) {
+    var hashedPassword = Users.hashPassword(req.body.password);
+
+    Users.findOne({ username: req.body.username })
+      .then(function(user) {
+        if (req.body.username !== req.params.username && user) {
+          return res.status(200).json({
+            user: !user,
+            message: 'Username already being used.'
+          });
+        }
+        else {
+          Users.findOneAndUpdate({ username: req.params.username }, {
+            $set:
+            {
+              name: req.body.name,
+              username: req.body.username,
+              password: hashedPassword,
+              email: req.body.email,
+              birth_date: req.body.birth_date
+            }
+          }, { new: true })
+            .populate('favorite_movies', '-_id title')
+            .exec(function(err, updatedUser) {
+              if (err) {
+                console.error(err);
+                res.status(500).send("Error " + err);
+              } else {
+                updatedUser = JSON.parse(JSON.stringify(updatedUser, ["_id", "name", "username"
+                  , "password", "email", "birth_date", "favorite_movies", "title"], 0));
+                res.status(201).json(updatedUser);
+              }
+            })
+        }
+      })
+      .catch(function(err) {
         console.error(err);
-        res.status(400).send("Error: " + err);
-      }
-      if (user) {
-        var foundMovie = 0;
-        user.favorite_movies.forEach(favorite_movie => {
-          if (favorite_movie._id == req.params.MovieID) {
-            foundMovie = 1;
-            res.status(200).send(favorite_movie.title
-              + ' was removed from ' + req.params.Username + '\'s favorites.');
+        res.status(500).send("Error: " + err);
+      });
+
+    // DELETE requests
+    app.delete('/users/:Username/Movies/:MovieID', passport.authenticate('jwt', { session: false }), function(req, res) {
+      Users.findOneAndUpdate({ username: req.params.Username }, {
+        $pull: { favorite_movies: req.params.MovieID }
+      }).populate('favorite_movies', 'title')
+        .exec(function(err, user) {
+          if (err) {
+            console.error(err);
+            res.status(400).send("Error: " + err);
+          }
+          if (user) {
+            var foundMovie = 0;
+            user.favorite_movies.forEach(favorite_movie => {
+              if (favorite_movie._id == req.params.MovieID) {
+                foundMovie = 1;
+                res.status(200).send(favorite_movie.title
+                  + ' was removed from ' + req.params.Username + '\'s favorites.');
+              }
+            })
+            if (foundMovie === 0) {
+              res.status(400).send(req.params.MovieID + ' was not found in ' + req.params.Username + '\'s favorites.');
+            }
+          } else {
+            res.status(400).send(req.params.MovieID + ' was not found in ' + req.params.Username + '\'s favorites.');
           }
         })
-        if (foundMovie === 0) {
-          res.status(400).send(req.params.MovieID + ' was not found in ' + req.params.Username + '\'s favorites.');
-        }
-      } else {
-        res.status(400).send(req.params.MovieID + ' was not found in ' + req.params.Username + '\'s favorites.');
-      }
-    })
-});
-
-app.delete('/users/:Username', passport.authenticate('jwt', { session: false }), function(req, res) {
-  Users.findOneAndRemove({ username: req.params.Username })
-    .then(function(user) {
-      if (!user) {
-        res.status(400).send(req.params.Username + " was not found");
-      } else {
-        res.status(200).send(req.params.Username + " was deleted.");
-      }
-    })
-    .catch(function(err) {
-      console.error(err);
-      res.status(500).send("Error: " + err);
     });
-});
+
+    app.delete('/users/:Username', passport.authenticate('jwt', { session: false }), function(req, res) {
+      Users.findOneAndRemove({ username: req.params.Username })
+        .then(function(user) {
+          if (!user) {
+            res.status(400).send(req.params.Username + " was not found");
+          } else {
+            res.status(200).send(req.params.Username + " was deleted.");
+          }
+        })
+        .catch(function(err) {
+          console.error(err);
+          res.status(500).send("Error: " + err);
+        });
+    });
 
 
-app.use(function(err, req, res, next) {
-  console.error(err.stack);
-  res.status(500).send('Error, please read the console for more details');
-});
+    app.use(function(err, req, res, next) {
+      console.error(err.stack);
+      res.status(500).send('Error, please read the console for more details');
+    });
 
-// listen for requests
-var port = process.env.PORT || 3000;
-app.listen(port, "0.0.0.0", function() {
-console.log("Listening on Port 3000");
-});
+    // listen for requests
+    var port = process.env.PORT || 3000;
+    app.listen(port, "0.0.0.0", function() {
+      console.log("Listening on Port 3000");
+    });
