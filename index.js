@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 app.use(cors());
 auth = require('./auth.js')(app);
 
-var allowedOrigins = ['http://localhost:8080', 'https://my-flix-api-evanoff.herokuapp.com/', 'http://localhost:1234'];
+var allowedOrigins = ['http://localhost:8080', 'https://my-flix-api-evanoff.herokuapp.com', 'http://localhost:1234'];
 app.use(cors({
   origin: function(origin, callback) {
     if (!origin) return callback(null, true);
