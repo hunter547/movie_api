@@ -55,7 +55,7 @@ app.get('/', function(req, res) {
  @example
   axios({
     method: 'get',
-    url: 'https://my-flix-api-evanoff.herokuapp.com/movies', 
+    url: 'https://my-flix-api-evanoff.herokuapp.com/client/movies', 
     {
       headers: { Authorization: `Bearer ${token}` 
     }
